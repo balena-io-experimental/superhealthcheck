@@ -38,7 +38,7 @@ const main = async function() {
       d.should_be_managed_by__supervisor_release.length === 1 &&
       logstream_supervisors_ids.indexOf(
         d.should_be_managed_by__supervisor_release[0].id
-    ) !== -1
+      ) !== -1
   );
   console.log(`Total devices: ${target_devices.length}`);
   // var some_target_devices = target_devices.slice(0, 1000);
@@ -57,7 +57,13 @@ const main = async function() {
           text = `${device.uuid}: SUSPECT`;
         }
       } catch {
-        text = `${device.uuid}: SUSPECT`;
+        let isOnline = await resin.models.device.isOnline(device.uuid);
+        if (isOnline) {
+          text = `${device.uuid}: SUSPECT`;
+        } else {
+          text = `${device.uuid}: WENT-OFFLINE`;
+          success = true;
+        }
       }
       readline.clearLine(process.stdout, 0);
       readline.cursorTo(process.stdout, 0);
