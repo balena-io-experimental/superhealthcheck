@@ -12,7 +12,7 @@ const main = async function() {
 
   const supervisors = await resin.pine.get({
     resource: "supervisor_release",
-    options: { select: ["id", "supervisor_version"] }
+    $options: { $select: ["id", "supervisor_version"] }
   });
   const logstream_supervisors = _.filter(supervisors, s =>
     s.supervisor_version.endsWith("_logstream")
@@ -22,13 +22,13 @@ const main = async function() {
   const devices = await resin.pine.get({
     resource: "device",
     options: {
-      select: ["uuid"],
-      expand: {
+      $select: ["uuid"],
+      $expand: {
         should_be_managed_by__supervisor_release: {
-          $select: "id"
+          $select: ['id']
         }
       },
-      filter: { is_online: true }
+      $filter: { is_online: true }
     }
   });
 
