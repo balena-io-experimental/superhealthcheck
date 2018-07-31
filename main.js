@@ -67,11 +67,11 @@ const main = async function() {
     { concurrency: 50 }
   );
 
-  console.log("\n\nSuspects:");
-  _.forEach(results, r => {
-    if (!r.success) {
-      console.log(`${r.uuid}`);
-    }
+  const suspects = _.filter(results, r => !r.success);
+
+  console.log(`\n\nSuspects (${suspects.length}):`);
+  _.forEach(suspects, s => {
+    console.log(`${s.uuid}`);
   });
 };
 
