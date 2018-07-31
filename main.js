@@ -25,7 +25,7 @@ const main = async function() {
       $select: ["uuid"],
       $expand: {
         should_be_managed_by__supervisor_release: {
-          $select: ['id']
+          $select: ["id"]
         }
       },
       $filter: { is_online: true }
@@ -51,17 +51,17 @@ const main = async function() {
       try {
         var result = await resin.models.device.ping(device.uuid);
         if (result.body === "OK") {
-          text = `${device.uuid}: CORRECT-LOOKING`;
+          text = `CORRECT-LOOKING: ${device.uuid}`;
           success = true;
         } else {
-          text = `${device.uuid}: SUSPECT`;
+          text = `SUSPECT        : ${device.uuid}`;
         }
       } catch {
         let isOnline = await resin.models.device.isOnline(device.uuid);
         if (isOnline) {
-          text = `${device.uuid}: SUSPECT`;
+          text = `SUSPECT        : ${device.uuid}`;
         } else {
-          text = `${device.uuid}: WENT-OFFLINE`;
+          text = `WENT-OFFLINE   : ${device.uuid}`;
           success = true;
         }
       }
